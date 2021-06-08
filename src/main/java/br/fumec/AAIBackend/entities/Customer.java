@@ -1,5 +1,6 @@
 package br.fumec.AAIBackend.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_customers")
-public class Customer {
+public class Customer implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,14 +39,6 @@ public class Customer {
 		this.cpf = cpf;
 		this.email = email;
 	}
-	
-	/*public Customer(CustomerDTO dto) {
-		id = dto.getId();
-		name = dto.getName();
-		cpf = dto.getCpf();
-		email = dto.getEmail();
-		purchases = dto.getPurchases().stream();
-	}*/
 
 	public Long getId() {
 		return id;
@@ -80,9 +74,5 @@ public class Customer {
 
 	public List<Sale> getPurchases() {
 		return purchases;
-	}
-
-	public void setPurchases(List<Sale> purchases) {
-		this.purchases = purchases;
 	}
 }
