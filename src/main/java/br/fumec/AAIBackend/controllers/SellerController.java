@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fumec.AAIBackend.dto.SellerDTO;
-import br.fumec.AAIBackend.exceptions.NotFoundException;
+import br.fumec.AAIBackend.exceptions.EntityNotFoundException;
 import br.fumec.AAIBackend.services.SellerService;
 
 @RestController
@@ -25,49 +25,45 @@ public class SellerController {
 
 	@Autowired
 	private SellerService service;
-	
+
 	@GetMapping
 	public ResponseEntity<List<SellerDTO>> findAll() {
 		List<SellerDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<SellerDTO> findById(@PathVariable Long id) {
-		try {
-			SellerDTO seller = service.findById(id);
-			
-			return ResponseEntity.ok().body(seller);
-		} catch (NotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		SellerDTO seller = service.findById(id);
+
+		return ResponseEntity.ok().body(seller);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<SellerDTO> createSeller(@RequestBody SellerDTO dto) {
 		SellerDTO createdSeller = service.createSeller(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(dto.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder
+					.fromCurrentRequest()
+					.path("/{id}")
+					.buildAndExpand(dto.getId())
+					.toUri();
+		
 		return ResponseEntity.created(uri).body(createdSeller);
 	}
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<SellerDTO> editSeller(@PathVariable Long id, @RequestBody SellerDTO dto) {
 		try {
 			SellerDTO seller = service.editSeller(id, dto);
 			return ResponseEntity.ok().body(seller);
-		} catch (NotFoundException e) {
+		} catch (EntityNotFoundException e) {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<SellerDTO> deleteSeller(@PathVariable Long id) {
-		try {
-			service.deleteSellerById(id);
-			return ResponseEntity.noContent().build();
-		} catch (NotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		service.deleteSellerById(id);
+		return ResponseEntity.noContent().build();
 	}
 }

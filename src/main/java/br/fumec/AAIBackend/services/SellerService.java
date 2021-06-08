@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.fumec.AAIBackend.dto.SellerDTO;
 import br.fumec.AAIBackend.entities.Seller;
-import br.fumec.AAIBackend.exceptions.NotFoundException;
+import br.fumec.AAIBackend.exceptions.EntityNotFoundException;
 import br.fumec.AAIBackend.repositories.SellerRepository;
 
 @Service
@@ -21,7 +21,7 @@ public class SellerService {
 		return result.stream().map(seller -> new SellerDTO(seller)).collect(Collectors.toList());
 	}
 	
-	public SellerDTO findById(Long id) throws NotFoundException {
+	public SellerDTO findById(Long id) {
 		Seller seller = findSellerById(id);
 		
 		return new SellerDTO(seller);
@@ -33,13 +33,13 @@ public class SellerService {
 		return new SellerDTO(savedSeller);
 	}
 	
-	public void deleteSellerById(Long id) throws NotFoundException {
+	public void deleteSellerById(Long id) {
 		Seller seller = findSellerById(id);
 		
 		repository.delete(seller);
 	}
 	
-	public SellerDTO editSeller(Long id, SellerDTO dto) throws NotFoundException {
+	public SellerDTO editSeller(Long id, SellerDTO dto) {
 		Seller seller = findSellerById(id);
 		
 		seller.setName(dto.getName());
@@ -51,8 +51,8 @@ public class SellerService {
 		return new SellerDTO(seller);
 	}
 
-	private Seller findSellerById(Long id) throws NotFoundException {
+	private Seller findSellerById(Long id) {
 		return repository.findById(id)
-			.orElseThrow(() -> new NotFoundException("Vendedor de id " + id + " não encontrado"));
+			.orElseThrow(() -> new EntityNotFoundException("Vendedor de id " + id + " não encontrado"));
 	}
 }

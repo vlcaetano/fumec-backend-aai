@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fumec.AAIBackend.dto.SaleDTO;
-import br.fumec.AAIBackend.exceptions.NotFoundException;
 import br.fumec.AAIBackend.services.SaleService;
 
 @RestController
@@ -24,39 +23,35 @@ public class SaleController {
 
 	@Autowired
 	private SaleService service;
-	
+
 	@GetMapping
 	public ResponseEntity<List<SaleDTO>> findAll() {
 		List<SaleDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<SaleDTO> findById(@PathVariable Long id) {
-		try {
-			SaleDTO sale = service.findById(id);
-			
-			return ResponseEntity.ok().body(sale);
-		} catch (NotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		SaleDTO sale = service.findById(id);
+
+		return ResponseEntity.ok().body(sale);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<SaleDTO> createSale(@RequestBody SaleDTO dto) throws NotFoundException {
+	public ResponseEntity<SaleDTO> createSale(@RequestBody SaleDTO dto) {
 		SaleDTO createdSale = service.createSale(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(dto.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder
+					.fromCurrentRequest()
+					.path("/{id}")
+					.buildAndExpand(dto.getId())
+					.toUri();
+		
 		return ResponseEntity.created(uri).body(createdSale);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<SaleDTO> deleteSale(@PathVariable Long id) {
-		try {
-			service.deleteSaleById(id);
-			return ResponseEntity.noContent().build();
-		} catch (NotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		service.deleteSaleById(id);
+		return ResponseEntity.noContent().build();
 	}
 }

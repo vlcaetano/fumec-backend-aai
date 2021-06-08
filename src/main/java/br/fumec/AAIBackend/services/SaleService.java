@@ -13,7 +13,7 @@ import br.fumec.AAIBackend.dto.SellerDTO;
 import br.fumec.AAIBackend.entities.Customer;
 import br.fumec.AAIBackend.entities.Sale;
 import br.fumec.AAIBackend.entities.Seller;
-import br.fumec.AAIBackend.exceptions.NotFoundException;
+import br.fumec.AAIBackend.exceptions.EntityNotFoundException;
 import br.fumec.AAIBackend.repositories.SaleRepository;
 
 @Service
@@ -33,13 +33,13 @@ public class SaleService {
 		return result.stream().map(sale -> new SaleDTO(sale)).collect(Collectors.toList());
 	}
 	
-	public SaleDTO findById(Long id) throws NotFoundException {
+	public SaleDTO findById(Long id) {
 		Sale sale = findSaleById(id);
 		
 		return new SaleDTO(sale);
 	}
 	
-	public SaleDTO createSale(SaleDTO dto) throws NotFoundException {
+	public SaleDTO createSale(SaleDTO dto) {
 		CustomerDTO customerDTO = customerService.findById(dto.getCustomer().getId());
 		Customer customer = new Customer(customerDTO.getId(), customerDTO.getName(), customerDTO.getCpf(), customerDTO.getEmail());
 		
@@ -52,14 +52,14 @@ public class SaleService {
 		return new SaleDTO(savedSale);
 	}
 	
-	public void deleteSaleById(Long id) throws NotFoundException {
+	public void deleteSaleById(Long id) {
 		Sale sale = findSaleById(id);
 		
 		repository.delete(sale);
 	}
 
-	private Sale findSaleById(Long id) throws NotFoundException {
+	private Sale findSaleById(Long id) {
 		return repository.findById(id)
-			.orElseThrow(() -> new NotFoundException("Venda de id " + id + " não encontrada"));
+			.orElseThrow(() -> new EntityNotFoundException("Venda de id " + id + " não encontrada"));
 	}
 }

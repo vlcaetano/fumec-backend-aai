@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fumec.AAIBackend.dto.CustomerDTO;
-import br.fumec.AAIBackend.exceptions.NotFoundException;
+import br.fumec.AAIBackend.exceptions.EntityNotFoundException;
 import br.fumec.AAIBackend.services.CustomerService;
 
 @RestController
@@ -25,49 +25,44 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService service;
-	
+
 	@GetMapping
 	public ResponseEntity<List<CustomerDTO>> findAll() {
 		List<CustomerDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<CustomerDTO> findById(@PathVariable Long id) {
-		try {
-			CustomerDTO customer = service.findById(id);
-			
-			return ResponseEntity.ok().body(customer);
-		} catch (NotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		CustomerDTO customer = service.findById(id);
+		return ResponseEntity.ok().body(customer);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO dto) {
 		CustomerDTO createdCustomer = service.createCustomer(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(dto.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder
+					.fromCurrentRequest()
+					.path("/{id}")
+					.buildAndExpand(dto.getId())
+					.toUri();
+		
 		return ResponseEntity.created(uri).body(createdCustomer);
 	}
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<CustomerDTO> editCustomer(@PathVariable Long id, @RequestBody CustomerDTO dto) {
 		try {
 			CustomerDTO customer = service.editCustomer(id, dto);
 			return ResponseEntity.ok().body(customer);
-		} catch (NotFoundException e) {
+		} catch (EntityNotFoundException e) {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<CustomerDTO> deleteCustomer(@PathVariable Long id) {
-		try {
-			service.deleteCustomerById(id);
-			return ResponseEntity.noContent().build();
-		} catch (NotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		service.deleteCustomerById(id);
+		return ResponseEntity.noContent().build();
 	}
 }

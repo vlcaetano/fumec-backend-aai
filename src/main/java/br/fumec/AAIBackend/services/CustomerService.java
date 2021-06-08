@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.fumec.AAIBackend.dto.CustomerDTO;
 import br.fumec.AAIBackend.entities.Customer;
-import br.fumec.AAIBackend.exceptions.NotFoundException;
+import br.fumec.AAIBackend.exceptions.EntityNotFoundException;
 import br.fumec.AAIBackend.repositories.CustomerRepository;
 
 @Service
@@ -22,7 +22,7 @@ public class CustomerService {
 		return result.stream().map(customer -> new CustomerDTO(customer)).collect(Collectors.toList());
 	}
 	
-	public CustomerDTO findById(Long id) throws NotFoundException {
+	public CustomerDTO findById(Long id) {
 		Customer customer = findCustomerById(id);
 		
 		return new CustomerDTO(customer);
@@ -34,13 +34,13 @@ public class CustomerService {
 		return new CustomerDTO(savedCustomer);
 	}
 	
-	public void deleteCustomerById(Long id) throws NotFoundException {
+	public void deleteCustomerById(Long id) {
 		Customer customer = findCustomerById(id);
 		
 		repository.delete(customer);
 	}
 	
-	public CustomerDTO editCustomer(Long id, CustomerDTO dto) throws NotFoundException {
+	public CustomerDTO editCustomer(Long id, CustomerDTO dto) {
 		Customer customer = findCustomerById(id);
 		
 		customer.setName(dto.getName());
@@ -52,8 +52,8 @@ public class CustomerService {
 		return new CustomerDTO(customer);
 	}
 
-	private Customer findCustomerById(Long id) throws NotFoundException {
+	private Customer findCustomerById(Long id) {
 		return repository.findById(id)
-			.orElseThrow(() -> new NotFoundException("Cliente de id " + id + " não encontrado"));
+			.orElseThrow(() -> new EntityNotFoundException("Cliente de id " + id + " não encontrado"));
 	}
 }
