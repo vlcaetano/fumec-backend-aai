@@ -2,6 +2,8 @@ package br.fumec.AAIBackend.dto;
 
 import java.io.Serializable;
 
+import br.fumec.AAIBackend.entities.Customer;
+
 public class CustomerDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -18,6 +20,13 @@ public class CustomerDTO implements Serializable {
 		this.name = name;
 		this.cpf = cpf;
 		this.email = email;
+	}
+	
+	public CustomerDTO(Customer entity) {
+		id = entity.getId();
+		name = entity.getName();
+		cpf = entity.getCpf();
+		email = entity.getEmail();
 	}
 
 	public Long getId() {
