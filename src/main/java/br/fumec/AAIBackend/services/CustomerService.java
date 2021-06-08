@@ -1,6 +1,5 @@
 package br.fumec.AAIBackend.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,7 @@ public class CustomerService {
 	}
 	
 	public CustomerDTO createCustomer(CustomerDTO dto) {
-		Customer customer = new Customer(null, dto.getName(), dto.getCpf(), dto.getEmail(), new ArrayList<>());
+		Customer customer = new Customer(null, dto.getName(), dto.getCpf(), dto.getEmail());
 		Customer savedCustomer = repository.save(customer);
 		return new CustomerDTO(savedCustomer);
 	}

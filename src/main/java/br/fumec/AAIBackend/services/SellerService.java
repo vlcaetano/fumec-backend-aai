@@ -1,6 +1,5 @@
 package br.fumec.AAIBackend.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class SellerService {
 	}
 	
 	public SellerDTO createSeller(SellerDTO dto) {
-		Seller seller = new Seller(null, dto.getName(), dto.getCpf(), dto.getEmail(), new ArrayList<>());
+		Seller seller = new Seller(null, dto.getName(), dto.getCpf(), dto.getEmail());
 		Seller savedSeller = repository.save(seller);
 		return new SellerDTO(savedSeller);
 	}

@@ -14,13 +14,6 @@ public class CustomerDTO implements Serializable {
 	
 	public CustomerDTO() {
 	}
-
-	public CustomerDTO(Long id, String name, String cpf, String email) {
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.email = email;
-	}
 	
 	public CustomerDTO(Customer entity) {
 		id = entity.getId();

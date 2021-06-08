@@ -3,6 +3,8 @@ package br.fumec.AAIBackend.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import br.fumec.AAIBackend.entities.Sale;
+
 public class SaleDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -10,18 +12,18 @@ public class SaleDTO implements Serializable {
 	private Double amount;
 	private LocalDate date;
 	
-	private SellerDTO sellerDTO;
-	private CustomerDTO customerDTO;
+	private SellerDTO seller;
+	private CustomerDTO customer;
 
 	public SaleDTO() {
 	}
-
-	public SaleDTO(Long id, Double amount, LocalDate date, SellerDTO sellerDTO, CustomerDTO customerDTO) {
-		this.id = id;
-		this.amount = amount;
-		this.date = date;
-		this.sellerDTO = sellerDTO;
-		this.customerDTO = customerDTO;
+	
+	public SaleDTO(Sale entity) {
+		id = entity.getId();
+		amount = entity.getAmount();
+		date = entity.getDate();
+		seller = new SellerDTO(entity.getSeller());
+		customer = new CustomerDTO(entity.getCustomer());
 	}
 
 	public Long getId() {
@@ -48,23 +50,19 @@ public class SaleDTO implements Serializable {
 		this.date = date;
 	}
 
-	public SellerDTO getSellerDTO() {
-		return sellerDTO;
+	public SellerDTO getSeller() {
+		return seller;
 	}
 
-	public void setSellerDTO(SellerDTO sellerDTO) {
-		this.sellerDTO = sellerDTO;
+	public void setSeller(SellerDTO seller) {
+		this.seller = seller;
 	}
 
-	public CustomerDTO getCustomerDTO() {
-		return customerDTO;
+	public CustomerDTO getCustomer() {
+		return customer;
 	}
 
-	public void setCustomerDTO(CustomerDTO customerDTO) {
-		this.customerDTO = customerDTO;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public void setCustomer(CustomerDTO customer) {
+		this.customer = customer;
 	}
 }

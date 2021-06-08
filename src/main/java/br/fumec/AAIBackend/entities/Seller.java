@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_sellers")
 public class Seller {
@@ -22,18 +24,18 @@ public class Seller {
 	private String cpf;
 	private String email;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "seller")
-	private List<Sale> sale = new ArrayList<>();
+	private List<Sale> sales = new ArrayList<>();
 	
 	public Seller() {
 	}
 
-	public Seller(Long id, String name, String cpf, String email, List<Sale> sale) {
+	public Seller(Long id, String name, String cpf, String email) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.email = email;
-		this.sale = sale;
 	}
 
 	public Long getId() {
@@ -68,11 +70,11 @@ public class Seller {
 		this.email = email;
 	}
 
-	public List<Sale> getSale() {
-		return sale;
+	public List<Sale> getSales() {
+		return sales;
 	}
 
-	public void setSale(List<Sale> sale) {
-		this.sale = sale;
+	public void setSales(List<Sale> sales) {
+		this.sales = sales;
 	}
 }
