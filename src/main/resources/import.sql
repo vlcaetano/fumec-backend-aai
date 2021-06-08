@@ -1,0 +1,15 @@
+INSERT INTO tb_customers (name, cpf, email) VALUES ('Vitor', '94741239004', 'vitor@email.com')
+INSERT INTO tb_customers (name, cpf, email) VALUES ('Nikolas', '49746880063', 'nikolas@email.com')
+INSERT INTO tb_customers (name, cpf, email) VALUES ('Bernardo', '16479538048', 'bernardo@email.com')
+INSERT INTO tb_customers (name, cpf, email) VALUES ('Flávio', '49343028083', 'flavio@email.com')
+
+INSERT INTO tb_sellers (name, cpf, email) VALUES ('João', '90037344021', 'joao@email.com')
+INSERT INTO tb_sellers (name, cpf, email) VALUES ('Carlos', '19336938002', 'carlos@email.com')
+INSERT INTO tb_sellers (name, cpf, email) VALUES ('José', '07171631052', 'jose@email.com')
+INSERT INTO tb_sellers (name, cpf, email) VALUES ('Maria', '78480375094', 'maria@email.com')
+
+INSERT INTO tb_sales (amount, date, seller_id, customer_id) VALUES (2000.0, '2020-12-12', 1, 1)
+INSERT INTO tb_sales (amount, date, seller_id, customer_id) VALUES (500.0, '2021-01-14', 2, 1)
+INSERT INTO tb_sales (amount, date, seller_id, customer_id) VALUES (1000.0, '2021-02-28', 3, 2)
+INSERT INTO tb_sales (amount, date, seller_id, customer_id) VALUES (250.0, '2021-03-20', 4, 3)
+INSERT INTO tb_sales (amount, date, seller_id, customer_id) VALUES (750.0, '2021-03-20', 4, 4)
