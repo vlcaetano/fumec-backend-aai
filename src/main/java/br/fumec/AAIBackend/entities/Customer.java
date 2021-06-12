@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Customer implements Serializable {
 	private String email;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", orphanRemoval = true, cascade = CascadeType.PERSIST)
 	private List<Sale> purchases = new ArrayList<>();
 	
 	public Customer() {
