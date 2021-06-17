@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fumec.AAIBackend.dto.SellerDTO;
-import br.fumec.AAIBackend.exceptions.EntityNotFoundException;
 import br.fumec.AAIBackend.services.SellerService;
 
 @RestController
@@ -53,12 +52,8 @@ public class SellerController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<SellerDTO> editSeller(@PathVariable Long id, @RequestBody SellerDTO dto) {
-		try {
-			SellerDTO seller = service.editSeller(id, dto);
-			return ResponseEntity.ok().body(seller);
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		SellerDTO seller = service.editSeller(id, dto);
+		return ResponseEntity.ok().body(seller);
 	}
 
 	@DeleteMapping("/{id}")

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fumec.AAIBackend.dto.CustomerDTO;
-import br.fumec.AAIBackend.exceptions.EntityNotFoundException;
 import br.fumec.AAIBackend.services.CustomerService;
 
 @RestController
@@ -52,12 +51,8 @@ public class CustomerController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<CustomerDTO> editCustomer(@PathVariable Long id, @RequestBody CustomerDTO dto) {
-		try {
-			CustomerDTO customer = service.editCustomer(id, dto);
-			return ResponseEntity.ok().body(customer);
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		CustomerDTO customer = service.editCustomer(id, dto);
+		return ResponseEntity.ok().body(customer);
 	}
 
 	@DeleteMapping("/{id}")
